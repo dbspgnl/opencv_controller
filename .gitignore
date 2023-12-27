@@ -16,5 +16,5 @@ out/*
 .vscode/
 
 # 무시폴더
-opencv/
+# opencv/
 test/

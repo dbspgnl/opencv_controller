@@ -1,9 +1,10 @@
 import sys
-from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QFileDialog
-from ui.ui_main import Ui_MainWindow
+from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QFileDialog, QMenu
+from PySide6.QtGui import QAction, QKeySequence
+from ui.main_ui import Ui_MainWindow
 import os
 import cv2
-import time
+from opencv.blend import ImageBlendingOnVideo
 
 class Controller_Window(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -11,77 +12,67 @@ class Controller_Window(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.setWindowTitle('Controller')
         
-        self.options = ('이미지 호출', '영상 불러오기')
+        self.options = ('영상 불러오기', '이미지 호출')
         self.comboBox.addItems(self.options)
+        self.comboBox.currentTextChanged.connect(self.changeComboBox)
         
-        btn =  self.file_button
-        btn.clicked.connect(self.launchDialog)
+        self.type_first_file = 'Video File (*.mp4 *.avi)'
+        self.type_second_file = 'Video File (*.mp4 *.avi)'
+        self.file_first = None
+        self.file_second = None
         
+        self.btn_first.clicked.connect(self.setFirstFile)
+        self.btn_second.clicked.connect(self.setSecondFile)
+        self.btn_launch.clicked.connect(self.launchDialog)
+        
+        
+    def changeComboBox(self):
+        print(self.type_second_file)
+        self.type_second_file = 'Image File (*.png *.jpg)'
+        print(self.type_second_file)
         
     def launchDialog(self):
         option = self.options.index(self.comboBox.currentText())
         if option == 0:
-            response = self.getImageFileName()
+            pass
         elif option == 1:
-            response = self.getVideoFileName()
+            ImageBlendingOnVideo(self.file_first[0], self.file_second[0])
+            pass
         else:
             print('Got Nothing')
-            
-    def getImageFileName(self):
-        # file_filter = 'Data File (*.xlsx *.csv *.dat);; Excel File (*.xlsx *.xls);; Image File (*.png *.jpg)'
-        file_filter = 'Image File (*.png *.jpg)'
+        self.isCheckFile()
+        
+    def setFirstFile(self):
+        file_filter = self.type_first_file
         response = QFileDialog.getOpenFileName(
             parent=self,
             caption='Select a file',
             dir=os.getcwd(),
             filter=file_filter,
-            selectedFilter ='Image File (*.png *.jpg)'
+            selectedFilter =self.type_first_file
         )
-        self.textEdit.setText(str(response))
-        img_bgr = cv2.imread(response[0])
-        cv2.namedWindow('img_bgr', flags=cv2.WINDOW_NORMAL)
-        cv2.resizeWindow(winname='img_bgr', width=600, height=300)
-        cv2.imshow("img_bgr", img_bgr)
-        pause()
+        self.file_first = response
+        self.btn_first.setStyleSheet('border: 1px solid #09E65A')
+        self.textBrowser.setText(str(response) + '\n' + self.textBrowser.toPlainText())
         
-    def getVideoFileName(self):
-        file_filter = 'Video File (*.mp4 *.avi)'
+    def setSecondFile(self):
+        file_filter = self.type_second_file
         response = QFileDialog.getOpenFileName(
             parent=self,
             caption='Select a file',
             dir=os.getcwd(),
             filter=file_filter,
-            selectedFilter ='Video File (*.mp4 *.avi)'
+            selectedFilter =self.type_second_file
         )
-        self.textEdit.setText(str(response))
-        
-        start_time = time.time()
-        
-        video1 = cv2.VideoCapture(response[0])
-        # width = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
-        # height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
-        fps = video1.get(cv2.CAP_PROP_FPS)
-        delay = int(1000/fps)-10 #오차
-        
-        while True:
-            ret1, frame1 = video1.read()
-            if not ret1:
-                break
-            cv2.imshow("ImageP",frame1)
+        self.file_second = response
+        self.btn_second.setStyleSheet('border: 1px solid #09E65A')
+        self.textBrowser.setText(str(response) + '\n' + self.textBrowser.toPlainText())
 
-            k = cv2.waitKey(delay)
-            if k == 27:
-                break
-            
-        end_time = time.time()
-        print(round(end_time-start_time,3))
-        cv2.destroyAllWindows()
-
-        
-    def pause():
-        keycode = cv2.waitKey(0)
-        if keycode == 27:         
-            cv2.destroyAllWindows()
+    def isCheckFile(self):
+        if self.file_first is None:
+            self.btn_first.setStyleSheet('border: 1px solid #EB3F00')
+        if self.file_second is None:
+            self.btn_second.setStyleSheet('border: 1px solid #EB3F00')
         
 app = QApplication(sys.argv)
 windows = Controller_Window() #QWidget()

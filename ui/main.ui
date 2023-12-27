@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>267</width>
-    <height>281</height>
+    <width>243</width>
+    <height>304</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,14 +25,35 @@
      <widget class="QComboBox" name="comboBox"/>
     </item>
     <item row="1" column="0" colspan="2">
-     <widget class="QPushButton" name="file_button">
+     <widget class="QPushButton" name="btn_first">
+      <property name="text">
+       <string>First Select File</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0" colspan="2">
+     <widget class="QPushButton" name="btn_second">
+      <property name="text">
+       <string>Second Select File</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0" colspan="2">
+     <widget class="QPushButton" name="btn_launch">
       <property name="text">
        <string>Launch</string>
       </property>
      </widget>
     </item>
-    <item row="2" column="0" colspan="2">
-     <widget class="QTextEdit" name="textEdit"/>
+    <item row="4" column="0" colspan="2">
+     <widget class="QTextBrowser" name="textBrowser">
+      <property name="styleSheet">
+       <string notr="true">background-color: white;</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -41,7 +62,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>267</width>
+     <width>243</width>
      <height>22</height>
     </rect>
    </property>
@@ -49,7 +70,6 @@
     <property name="title">
      <string>info</string>
     </property>
-    <addaction name="actionversion"/>
     <addaction name="actionclose"/>
    </widget>
    <addaction name="menuinfo"/>
