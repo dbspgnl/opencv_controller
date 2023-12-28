@@ -12,6 +12,10 @@ class Controller_Window(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.setWindowTitle('Controller')
         
+        self.actionclose.setStatusTip('Exit application')
+        self.actionclose.setShortcut('Ctrl+Q')
+        self.actionclose.triggered.connect(lambda:self.close())
+        
         self.options = ('영상 불러오기', '이미지 호출')
         self.comboBox.addItems(self.options)
         self.comboBox.currentTextChanged.connect(self.changeComboBox)
@@ -23,7 +27,7 @@ class Controller_Window(QMainWindow, Ui_MainWindow):
         
         self.btn_first.clicked.connect(self.setFirstFile)
         self.btn_second.clicked.connect(self.setSecondFile)
-        self.btn_launch.clicked.connect(self.launchDialog)
+        self.btn_launch.clicked.connect(self.launchDialog)    
         
         
     def changeComboBox(self):
