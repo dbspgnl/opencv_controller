@@ -53,14 +53,19 @@ class Ui_MainWindow(object):
         self.btn_launch = QPushButton(self.centralwidget)
         self.btn_launch.setObjectName(u"btn_launch")
 
-        self.formLayout.setWidget(3, QFormLayout.SpanningRole, self.btn_launch)
+        self.formLayout.setWidget(4, QFormLayout.SpanningRole, self.btn_launch)
 
         self.textBrowser = QTextBrowser(self.centralwidget)
         self.textBrowser.setObjectName(u"textBrowser")
         self.textBrowser.setStyleSheet(u"background-color: white;")
         self.textBrowser.setFrameShape(QFrame.StyledPanel)
 
-        self.formLayout.setWidget(4, QFormLayout.SpanningRole, self.textBrowser)
+        self.formLayout.setWidget(5, QFormLayout.SpanningRole, self.textBrowser)
+
+        self.btn_save = QPushButton(self.centralwidget)
+        self.btn_save.setObjectName(u"btn_save")
+
+        self.formLayout.setWidget(3, QFormLayout.SpanningRole, self.btn_save)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
@@ -88,6 +93,7 @@ class Ui_MainWindow(object):
         self.btn_first.setText(QCoreApplication.translate("MainWindow", u"First Select File", None))
         self.btn_second.setText(QCoreApplication.translate("MainWindow", u"Second Select File", None))
         self.btn_launch.setText(QCoreApplication.translate("MainWindow", u"Launch", None))
+        self.btn_save.setText(QCoreApplication.translate("MainWindow", u"Save Path", None))
         self.menuinfo.setTitle(QCoreApplication.translate("MainWindow", u"info", None))
     # retranslateUi
 
