@@ -18,6 +18,7 @@ out/*
 # 무시폴더
 # opencv/
 test/
+out/
 
 /*.png
 /*.jpg
